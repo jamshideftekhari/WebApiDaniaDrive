@@ -1,0 +1,100 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DaniaDriveMetro.View"
+    xmlns:common="using:DaniaDriveMetro.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Model="using:DaniaDriveMetro.Model"
+    xmlns:ViewModel="using:DaniaDriveMetro.ViewModel"
+    x:Name="pageRoot"
+    x:Class="DaniaDriveMetro.View.TasksPage"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Mode=Self}}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
+        <x:String x:Key="AppName">My Application</x:String>
+    </Page.Resources>
+
+    <!--
+        This grid acts as a root panel for the page that defines two rows:
+        * Row 0 contains the back button and page title
+        * Row 1 contains the rest of the page layout
+    -->
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.DataContext>
+            <ViewModel:TasksViewModel/>
+        </Grid.DataContext>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
+				Style="{StaticResource NavigationBackButtonNormalStyle}"
+				VerticalAlignment="Top"
+				AutomationProperties.Name="Back"
+				AutomationProperties.AutomationId="BackButton"
+				AutomationProperties.ItemType="Navigation Button"/>
+            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+				IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
+        </Grid>
+        <GridView HorizontalAlignment="Left" Margin="55,43,0,0" Grid.Row="1" VerticalAlignment="Top" Width="522" Height="560" ItemsSource="{Binding ListData}">
+            <!--<GridView.DataContext>
+                <ViewModel:TasksViewModel/>
+            </GridView.DataContext>-->
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="250" Height="172" Background="#FF161C8F">
+                        <TextBlock Text="{Binding DaniaTaskId}" Padding="10" />
+                        <TextBlock Margin="10,0" Text="{Binding ElapsedTime}">
+                    <!--<Run Text="{Binding String_ListData}" FontSize="20" />-->
+                        </TextBlock>
+                        <TextBlock Text="{Binding Milage}" Padding="10" />
+                        <TextBlock Text="{Binding EmployeeId}" Padding="10" />
+                        <TextBlock Text="{Binding PaymentId}" Padding="10" />
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <GridView HorizontalAlignment="Left" Margin="655,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="522" Height="604" ItemsSource="{Binding Tasks, Mode=TwoWay}">
+            <!--<GridView.DataContext>
+                <ViewModel:TasksViewModel/>
+            </GridView.DataContext>-->
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="220" Height="228" Background="#FFF03624">
+                        <!--<TextBlock Margin="10,0">
+                           Name: <Run Text="{Binding Employee.EmployeeName}" FontSize="20" />
+                        </TextBlock>-->
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Employee.EmployId}" Padding="10" />
+                            <TextBlock Text="{Binding Employee.EmployeeName}" Padding="10" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding DaniaTaskId}" Padding="10" />
+                        <TextBlock Margin="10,0">
+                           Elapsed Time: <Run Text="{Binding ElapsedTime}" FontSize="20" />
+                        </TextBlock>
+                        <TextBlock Text="{Binding Milage}" Padding="10" />
+                        <TextBlock Text="{Binding EmployeeId}" Padding="10" />
+                        <TextBlock Text="{Binding PaymentId}" Padding="10" />
+                        
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+    </Grid>
+</Page>
